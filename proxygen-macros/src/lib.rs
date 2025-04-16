@@ -112,7 +112,7 @@ pub fn forward(_attr_input: TokenStream, item: TokenStream) -> TokenStream {
         pub unsafe extern "C" fn #func_name() {
             #[cfg(target_arch = "x86_64")]
             {
-                std::arch::asm!(
+                std::arch::naked_asm!(
                     "call {wait_dll_proxy_init}",
                     "mov rax, qword ptr [rip + {ORIG_FUNCS_PTR}]",
                     "add rax, {orig_index} * 8",
@@ -128,7 +128,7 @@ pub fn forward(_attr_input: TokenStream, item: TokenStream) -> TokenStream {
 
             #[cfg(target_arch = "x86")]
             {
-                std::arch::asm!(
+                std::arch::naked_asm!(
                     "call {wait_dll_proxy_init}",
                     "mov eax, dword ptr [{ORIG_FUNCS_PTR}]",
                     "add eax, {orig_index} * 4",
@@ -254,7 +254,7 @@ pub fn pre_hook(attr_input: TokenStream, item: TokenStream) -> TokenStream {
                 #[naked]
                 #(#attrs)*
                 pub unsafe extern "C" fn #func_name() {
-                    std::arch::asm!(
+                    std::arch::naked_asm!(
                         // Wait for dll proxy to initialize
                         "call {wait_dll_proxy_init}",
                         "mov rax, qword ptr [rip + {ORIG_FUNCS_PTR}]",
