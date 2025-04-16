@@ -1,7 +1,6 @@
 #![feature(naked_functions)]
 #![allow(named_asm_labels)]
 #![allow(non_snake_case)]
-#![feature(asm_const)]
 
 mod export_indices;
 mod intercepted_exports;
